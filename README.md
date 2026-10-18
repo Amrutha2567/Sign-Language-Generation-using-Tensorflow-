@@ -38,3 +38,18 @@ This project demonstrates how to implement real-time object detection using **YO
 ## Conclusion
 
 This project provides a practical introduction to deep-learning-based object detection using YOLOv3 and OpenCV. It demonstrates how pretrained neural networks can identify multiple objects efficiently in images and video streams.
+
+pip install opencv-python numpy
+
+
+Download these YOLOv3 model files and place them in your project directory:
+- yolov3.cfg — model configuration
+- yolov3.weights — pretrained model weights
+- coco.names — object class labels
+Then create object_detection.py:
+import cv2import numpy as np# Load class labelswith open("coco.names", "r") as file:    classes = [line.strip() for line in file.readlines()]# Load YOLOv3 modelnet = cv2.dnn.readNetFromDarknet(    "yolov3.cfg",    "yolov3.weights")layer_names = net.getLayerNames()output_layers = [    layer_names[i - 1]    for i in net.getUnconnectedOutLayers().flatten()]# Read input imageimage = cv2.imread("image.jpg")if image is None:    raise FileNotFoundError("Could not load image.jpg")height, width = image.shape[:2]# Prepare image for YOLOblob = cv2.dnn.blobFromImage(    image,    scalefactor=1 / 255.0,    size=(416, 416),    swapRB=True,    crop=False)
+
+
+
+Run the project:
+python object_detection.py
